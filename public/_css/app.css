@@ -1,0 +1,65 @@
+:root {
+    --metal-color: #9a9ac1;
+    --crystal-color: #8dceec;
+    --deuterium-color: #41aa9c;
+
+    --danger-color: #7e1111;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    background-color: #1e1e1e;
+    color: rgb(216, 186, 147);
+    font-size: .80rem;
+}
+
+h1 {
+    font-size: 1.7rem;
+}
+
+h2 {
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+input:focus {
+    box-shadow: none !important;
+    border-color:rgb(37, 145, 109) !important;
+}
+
+.form-control-xs {
+    height: calc(1.1em + .3rem + calc(var(--bs-border-width) * 1.5));
+    border-radius: 3px;
+    padding: 0;
+}
+
+.btn-xs {
+    padding: 0.18rem .38rem !important;
+    font-size: .68rem;
+
+}
+
+.metal {
+    color: var(--metal-color);
+}
+.crystal {
+    color: var(--crystal-color);
+}
+.deuterium {
+    color: var(--deuterium-color);
+}
+
+.text-danger {
+    color: var(--danger-color) !important;
+}
