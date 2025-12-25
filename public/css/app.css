@@ -4,6 +4,7 @@
     --deuterium-color: #41aa9c;
 
     --danger-color: #7e1111;
+    --success-color: #2a610a;
 }
 
 * {
@@ -62,4 +63,7 @@ input:focus {
 
 .text-danger {
     color: var(--danger-color) !important;
+}
+.text-success {
+    color: var(--success-color) !important;
 }

@@ -18,6 +18,7 @@
     <script src="public/js/vue-components.js"></script>
     <script src="public/js/jquery.min.js"></script>
     <script src="public/js/bootstrap.bundle.min.js"></script>
+    <script src="public/js/translation.js"></script>
     <script src="public/js/helpers.js"></script>
     <script src="public/js/mixins.js"></script>
 
@@ -30,7 +31,7 @@
 </head>
 
 <body>
-    <div id="app" class="container">
+    <div id="app" class="container pb-3">
         <h1 class="text-center mb-4 mt-4">Ogame Share</h1>
 
         <p class="text-center">
@@ -61,26 +62,12 @@
                     <h3>Butin</h3>
 
                     <my-input-number
-                        v-model="player.loot.metal"
+                        v-for="(ress, key) in loots"
+                        :key="key"
+                        v-model="player.loot[ress]"
                         v-bind:params='{
-                            label: "Metal",
-                            class_input: "metal"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.loot.crystal"
-                        v-bind:params='{
-                            label: "Cristal",
-                            class_input: "crystal"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.loot.deuterium"
-                        v-bind:params='{
-                            label: "Deutérium",
-                            class_input: "deuterium"
+                            label: trd(ress),
+                            class_input: ress
                         }'
                     ></my-input-number>
 
@@ -89,107 +76,11 @@
                     <h3>Pertes</h3>
 
                     <my-input-number
-                        v-model="player.ships.small_carrier"
+                        v-for="(ship, key) in ships"
+                        :key="key"
+                        v-model="player.ships[ship]"
                         v-bind:params='{
-                            label: "Petit transporteur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.large_carrier"
-                        v-bind:params='{
-                            label: "Grand transporteur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.light_fighter"
-                        v-bind:params='{
-                            label: "Chasseur léger"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.heavy_fighter"
-                        v-bind:params='{
-                            label: "Chasseur lourd"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.cruiser"
-                        v-bind:params='{
-                            label: "Croiseur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.battlecruiser"
-                        v-bind:params='{
-                            label: "Vaisseau de bataille"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.colonization_ships"
-                        v-bind:params='{
-                            label: "Vaisseau de colonisation"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.recycler"
-                        v-bind:params='{
-                            label: "Recycleur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.spy_probe"
-                        v-bind:params='{
-                            label: "Sonde d&apos;espionnage"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.bomber"
-                        v-bind:params='{
-                            label: "Bombardier"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.destroyer"
-                        v-bind:params='{
-                            label: "Destructeur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.death_star"
-                        v-bind:params='{
-                            label: "Étoile de la mort"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.tracker"
-                        v-bind:params='{
-                            label: "Traqueur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.reaper"
-                        v-bind:params='{
-                            label: "Faucheur"
-                        }'
-                    ></my-input-number>
-
-                    <my-input-number
-                        v-model="player.ships.pathfinder"
-                        v-bind:params='{
-                            label: "Éclaireur"
+                            label: trd(ship)
                         }'
                     ></my-input-number>
 
@@ -200,7 +91,7 @@
                     >Effacer</button>
                 </div>
 
-                <div class="col-1 p-3">
+                <div class="col-12 col-sm-1 p-3 text-center">
                     <button
                         type="button"
                         class="btn btn-success btn-xs"
@@ -213,31 +104,38 @@
 
                 <hr class="m-0">
 
-                <div class="col-12 text-end rounded-2 mt-3">
+                <div class="col-12 text-sm-end text-center rounded-2 mt-3">
                     <button
                         class="btn btn-sm btn-success"
                         type="submit"
                         v-on:click.stop.prevent="calculate()"
                     >Calculer</button>
                 </div>
+            </div>
 
-                <div class="col-12 mt-3 mb-5 pb-5" v-if="results">
-                   <h1 class="text-center">Résultat</h1>
+            <div class="row mt-3 text-center" v-if="results">
+                <div class="col-sm-3 col-12 mb-3" v-for="(result, player) in results">
+                    <h2>{{ player }}</h2>
 
-                   <div class="row">
-                        <div class="col-sm-3" v-for="(result, player) in results">
-                            <h2>{{ player }}</h2>
+                    <ul class="list-unstyled">
+                        <li
+                            v-for="ress in ['metal', 'crystal', 'deuterium']"
+                            v-bind:class="ress"
+                            class="h5"
+                        >
+                            {{ trd(ress) }} :
+                            <span
+                                v-bind:class="lossCalculation(player, ress, true) >= 0 ? 'text-success' : 'text-danger'"
+                                class="fw-bold"
+                            >
+                                {{ formatFr(lossCalculation(player, ress, true)) }}
+                            </span>
+                        </li>
 
-                            <ul class="list-unstyled">
-                                <li class="metal">Métal : {{ formatFr(lossCalculation(player, 'metal')) }}</li>
-                                <li class="crystal">Cristal : {{ formatFr(lossCalculation(player, 'crystal')) }}</li>
-                                <li class="deuterium">Deutérium : {{ formatFr(lossCalculation(player, 'deuterium')) }}</li>
-                                <li class="mt-2 text-danger h5"><b>Pertes</b> :
-                                    <span class="">-{{ formatFr(lossTotal(player)) }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                   </div>
+                        <li class="mt-3 h5 fw-bold">
+                            <b>Total</b> : <span v-bind:class="lossTotal(player) >= 0 ? 'text-success' : 'text-danger'">{{ formatFr(lossTotal(player)) }}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </form>

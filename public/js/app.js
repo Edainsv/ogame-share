@@ -26,8 +26,6 @@ const app = Vue.createApp({
             this.data_form.players[index] = defaultPlayer();
         },
         calculate: function() {
-            // Parcourir chaque joueur
-            // Afficher dans des cases les pertes 
             let results = {};
             let playerName = '';
             let i = 1;
@@ -39,10 +37,19 @@ const app = Vue.createApp({
                     playerName = 'Joueur ' + i;
                 }
 
-                results[playerName] = {};
+                results[playerName] = {
+                    'loot': {},
+                    'ships': {}
+                };
 
+                // Gain Loot
+                for (loot in player.loot) {
+                    results[playerName]['loot'][loot] = player.loot[loot];
+                }
+
+                // Gain Ships
                 for (ship in player.ships) {
-                    results[playerName][ship] = {
+                    results[playerName]['ships'][ship] = {
                         metal: ogame.ships[ship].metal * player.ships[ship],
                         crystal: ogame.ships[ship].crystal * player.ships[ship],
                         deuterium: ogame.ships[ship].deuterium * player.ships[ship]
@@ -52,26 +59,30 @@ const app = Vue.createApp({
             }
 
             this.results = results;
+            scrollToBottom();
         },
-        lossCalculation: function(player, resource) {
+        lossCalculation: function(player, resource, withLoot) {
             let result = 0;
 
-            for (let price in this.results[player]) {
-                result += this.results[player][price][resource];
+            for (let ship in this.results[player]['ships']) {
+                result -= this.results[player]['ships'][ship][resource];
             }
 
-            return result;
+            // Prend en compte le butin
+            if (withLoot) {
+                result += this.results[player]['loot'][resource];
+            }
+
+            return parseInt(result);
         },
         lossTotal: function(player) {
             let result = 0;
 
-            for (let price in this.results[player]) {
-                result += this.results[player][price]['metal'];
-                result += this.results[player][price]['crystal'];
-                result += this.results[player][price]['deuterium'];
-            }
+            ['metal', 'crystal', 'deuterium'].forEach((ress) => {
+                result += this.lossCalculation(player, ress, true);
+            });
 
-            return result;
+            return parseInt(result);
         }
     }
 });

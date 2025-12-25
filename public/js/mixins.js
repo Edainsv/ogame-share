@@ -25,6 +25,37 @@ let myMixins = {
 
             const formatted = this.formatFr(digits);
             input.value = formatted;
+        },
+        trd: function(str) {
+            return trd(str);
         }
-    }    
+    }    ,
+    computed: {
+        loots: function () {
+            return [
+                'metal',
+                'crystal',
+                'deuterium'
+            ];
+        },
+        ships: function () {
+            return [
+                'small_carrier',
+                'large_carrier',
+                'light_fighter',
+                'heavy_fighter',
+                'cruiser',
+                'battlecruiser',
+                'colonization_ships',
+                'recycler',
+                'spy_probe',
+                'bomber',
+                'destroyer',
+                'death_star',
+                'tracker',
+                'reaper',
+                'pathfinder'
+            ];
+        }
+    }
 }

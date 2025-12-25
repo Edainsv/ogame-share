@@ -42,7 +42,7 @@ function registerComponents(app) {
         template: `
         <div class="row" v-bind:class="the_params.class_input">
             <div class="col-7">
-                <label v-bind:for="the_params.id" class="form-label">{{ params.label }} : </label>
+                <label v-bind:for="the_params.id" class="form-label">{{ the_params.label }} : </label>
             </div>
             <div class="col-5">
                 <input
