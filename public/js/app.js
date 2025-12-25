@@ -25,6 +25,9 @@ const app = Vue.createApp({
         resetFields: function (index) {
             this.data_form.players[index] = defaultPlayer();
         },
+        refreshAll: function() {
+            window.location.reload();
+        },
         calculate: function() {
             let results = {};
             let playerName = '';
