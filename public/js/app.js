@@ -86,6 +86,9 @@ const app = Vue.createApp({
             });
 
             return parseInt(result);
+        },
+        excessLoot(player) {
+
         }
     }
 });

@@ -3,18 +3,14 @@ function registerComponents(app) {
         mixins: [myMixins],
         props: ['modelValue', 'params'],
         data: function () {
-            const the_params = {
-                id: uid(),
-                label: '',
-                placeholder: '0',
-                class_input: ''
-            };
-
             return {
-                the_params: {
-                    ...this.params
-                } 
-            }
+                defaults: {
+                    id: uid(),
+                    label: '',
+                    placeholder: '0',
+                    class_input: ''
+                }
+            };
         },
         computed: {
             localValue: {
@@ -24,9 +20,15 @@ function registerComponents(app) {
                 set(value) {
                     this.$emit('update:modelValue', value);
                 }
-            }
+            },
+            the_params: function() {
+                return {
+                    ...this.defaults,
+                    ...this.params
+                }
+            } 
         },
-        mounted() {
+        mounted: function () {
             const digits = this.toDigits(this.modelValue);
             this.$el.querySelector('input').value = this.formatFr(digits);
         },

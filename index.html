@@ -114,6 +114,9 @@
             </div>
 
             <div class="row mt-3 text-center" v-if="results">
+                <div class="col-12 h4">
+                    <p>Les ressources sont divisés par {{ data_form.players.length }} joueurs</p>
+                </div>
                 <div class="col-sm-3 col-12 mb-3" v-for="(result, player) in results">
                     <h2>{{ player }}</h2>
 
@@ -136,10 +139,23 @@
                             <b>Total</b> : <span v-bind:class="lossTotal(player) >= 0 ? 'text-success' : 'text-danger'">{{ formatFr(lossTotal(player)) }}</span>
                         </li>
                     </ul>
+
+                    <div>
+                        <hr>
+                         
+
+                        <p><b>{{ player }}</b> doit {{ excessLoot(player) }} à un joueur déficient :</p>
+
+                        <ul class="list-unstyled">
+                            <li>Métal : 0</li>
+                            <li>Crystal : 0</li>
+                            <li>Deutérium : 0</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="col-12">
-                    <button class="btn btn-outline-danger btn-xs w-100" type="button" v-on:click.stop.prevent="refreshAll()">Réinitialiser</button>
+                <div class="col-12 text-sm-end text-center">
+                    <button class="btn btn-outline-danger btn-sm" type="button" v-on:click.stop.prevent="refreshAll()">Réinitialiser</button>
                 </div>
             </div>
         </form>

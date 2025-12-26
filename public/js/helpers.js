@@ -17,3 +17,13 @@ function scrollToBottom() {
         });
     });
 }
+
+function plural(quantity, word, suffix = 's', replace = null) {
+    if (Math.abs(quantity) <= 1) return word;
+
+    if (replace) {
+        return word.replace(replace[0], replace[1]);
+    }
+
+    return word + suffix;
+}
